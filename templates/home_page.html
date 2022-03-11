@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% block title %}Product List | eCommerce{% endblock title %}
+{% load static %}
+{% block content %}
+
+<style>
+    .card{
+        position: relative;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+    .card:hover{
+        transform: translateY(-15px);
+        box-shadow: 0px 2px 45px 2px rgba(0, 0, 0, 0.3);
+        transition: .5s;
+    }
+</style>
+
+<div class="section">
+    <div class="container">
+
+        <div class="title-1">NEW PRODUCTS</div>
+        <div class="title-line mb-5"></div>
+        
+        <div class='row'>
+            {% for obj in object_list %}
+                <div class='col-md-3 mb-5'>
+                    <div class="card">
+                        <div class="cart"><small class='pro-new'>New</small></div>
+                        <div class="img-wrapper">
+                            <img class="card-img-top" src="{{ obj.image.url }}" alt="{{ obj.title}} logo">
+                            <div class="img-text-wrapper">
+                                <a href="{{ obj.get_absolute_url }}">View detail</a>
+                                <a href="#">View image</a>
+                            </div>
+                        </div>
+                        <div class="cart">
+                            <div class="date-wrapper"><i class="fas fa-calendar-alt"></i>
+                                {{ obj.timestamp|timesince }} ago
+                            </div>
+                        </div>
+                    
+                        <div class="card-body">
+                            <div class="d-flex justify-content-between">
+                                <a href="{{ obj.get_absolute_url }}" class="product-btn">
+                                    {{ obj.title|title }}
+                                </a>
+                                <a href="{{ obj.get_absolute_url }}" class="product-btn">
+                                    <i class="fas fa-eye"></i><span class="tooltipp">Detail view</span>
+                                </a>
+                            </div>
+                            <span class="price fs-3">$ {{ obj.price }}</span>
+                            {% if obj.discount_price %}<span class="dismiss-text"> $ {{ obj.discount_price }}</span>{% endif %}
+                            
+                            <div class="card-subtitle mt-2">{{ obj.description|linebreaks|truncatewords:10 }}</div>
+                            
+                            <div class='text-center'>
+                                <form class='form-product-ajax' method='POST' action='{% url "update" %}' data-endpoint='{% url "update" %}' class="form" {% if request.user.is_authenticated %}data-user='abc'{% endif %}> {% csrf_token %}
+                                    <input type='hidden' name='product_id' value='{{ obj.id }}' {% if  product.is_digital %}data-is-digital='true'{% endif%}/>
+                                    {% if obj in cart.products.all %}
+                                        <button type='submit'  class='btn btn-outline-danger'>
+                                            <i class="fa fa-shopping-cart"></i> Remove from cart
+                                        </button>
+                                    {% else %}
+                                        <button type='submit'  class='btn btn-outline-success cart-submit'>
+                                            <i class="fa fa-shopping-cart"></i> Add to cart
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 %}
+                    </div> </div><div class='row'><div class='col-md-3 mb-5'></div>
+                    {% else %}
+                    </div>
+                    {% endif %}
+            {% endfor %}
+            <!-- </div> -->
+        </div>
+
+        <div class="products-slick-nav" id="slick-nav-1">
+          <button class="slick-prev slick-arrow" style="display: inline-block;" aria-label="Previous" type="button">
+            <i class="fas fa-angle-left"></i>
+          </button>
+          <button class="slick-next slick-arrow" style="display: inline-block;" aria-label="Next" type="button">
+            <i class="fas fa-angle-right"></i>
+          </button>
+        </div>
+
+    </div>
+</div>
+
+<div class="section">
+    <div class="hot-deal">
+        <img src="{% static 'img/product-1.png' %}" alt="" width="350px">
+        <div class="text-center">
+            <div class="mb-5">
+                <span class="countdown mr-5">04 Day</span><span class="countdown mr-5">06 Hourse</span>
+                <span class="countdown mr-5">10 Min</span><span class="countdown">17 Sec</span>
+            </div>
+            <h2>HOT DEAL THIS WEEK</h2><p class="lead">New Collection Up to 50% OFF</p><br>
+            <button class="btn btn-danger mt-4"><a class="">Shop Now</a></button>
+        </div>
+        <img src="{% static 'img/product-2.png' %}" alt="" width="350px">
+    </div>
+</div>
+
+<div class="section">
+    <div class="container">
+
+        <div class="title-1">NEW PRODUCTS</div>
+        <div class="title-line mb-5"></div>
+        
+        <div class='row'>
+            {% for obj in object_list %}
+                <div class='col-md-3 mb-5'>
+                    <div class="card">
+                        <div class="cart"><small class='pro-new'>New</small></div>
+                        <div class="img-wrapper">
+                            <img class="card-img-top" src="{{ obj.image.url }}" alt="{{ obj.title}} logo">
+                            <div class="img-text-wrapper">
+                                <a href="{{ obj.get_absolute_url }}">View detail</a>
+                                <a href="#">View image</a>
+                            </div>
+                        </div>
+                        <div class="cart">
+                            <div class="date-wrapper"><i class="fas fa-calendar-alt"></i>
+                                {{ obj.timestamp|timesince }} ago
+                            </div>
+                        </div>
+                    
+                        <div class="card-body">
+                            <div class="card-link-wrapper">
+                                <a href="{{ obj.get_absolute_url }}" class="product-btn">
+                                    {{ obj.title|title }}
+                                </a>
+                                <a href="{{ obj.get_absolute_url }}" class="product-btn">
+                                    <i class="fas fa-eye"></i><span class="tooltipp">Detail view</span>
+                                </a>
+                            </div>
+                            <span class="price fs-3">$ {{ obj.price }}</span>
+                            {% if obj.discount_price %}<span class="dismiss-text"> $ {{ obj.discount_price }}</span>{% endif %}
+                            
+                            <div class="card-subtitle mt-2">{{ obj.description|linebreaks|truncatewords:10 }}</div>
+                            
+                            <div class='text-center'>
+                                <form class='form-product-ajax' method='POST' action='{% url "update" %}' data-endpoint='{% url "update" %}' class="form" {% if request.user.is_authenticated %}data-user='abc'{% endif %}> {% csrf_token %}
+                                    <input type='hidden' name='product_id' value='{{ obj.id }}' {% if  product.is_digital %}data-is-digital='true'{% endif%}/>
+                                    {% if obj in cart.products.all %}
+                                        <button type='submit'  class='btn btn-outline-danger'>
+                                            <i class="fa fa-shopping-cart"></i>Remove from cart
+                                        </button>
+                                    {% else %}
+                                        <button type='submit'  class='btn btn-outline-success cart-submit'>
+                                            <i class="fa fa-shopping-cart"></i>Add to cart
+                                        </button>
+                                    {% endif %}
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    {% if forloop.counter|divisibleby:4 %}
+                    </div> </div><div class='row'><div class='col-md-3 mb-5'></div>
+                    {% else %}
+                    </div>  
+                    {% endif %}
+            {% endfor %}
+            <!-- </div> -->
+        </div>
+
+        <div class="products-slick-nav" id="slick-nav-1">
+          <button class="slick-prev slick-arrow" style="display: inline-block;" aria-label="Previous" type="button">
+            <i class="fas fa-angle-left"></i>
+          </button>
+          <button class="slick-next slick-arrow" style="display: inline-block;" aria-label="Next" type="button">
+            <i class="fas fa-angle-right"></i>
+          </button>
+        </div>
+
+    </div>
+</div>
+
+{% endblock content %}
+
+{% block js %}
+{% endblock js %}

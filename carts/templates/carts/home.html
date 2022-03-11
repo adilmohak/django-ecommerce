@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="section">
+<div class="container">
+
+  <div class="title-1"><i class="fa fa-shopping-cart" aria-hidden="true"></i>Shopping Cart</div>
+  <div class="title-line mb-5"></div>
+
+  {% if cart.products.exists %}
+  <div class="table-responsive" style="box-shadow: 0px 2px 5px 2px rgba(0, 0, 0, 0.3); background: #fff;">
+  <table class="table">
+    <thead class="bg-dark" style="color: #ddd;">
+      <tr>
+        <th>#</th>
+        <th>Product Name</th>
+        <th>Product Price</th>
+        <th>Remove</th>
+      </tr>
+    </thead>
+    <tbody class='cart-body'>
+      {% for product in cart.products.all %}
+      <tr class='cart-product'>
+        <th scope="row">{{ forloop.counter }}</th>
+        <td><a href='{{ product.get_absolute_url }}'>{{ product.title|title }}</a></td>
+        <td>${{ product.price }}</td>
+        <th>
+            <form class='form-product-ajax' method='POST' action='{% url "update" %}' data-endpoint='{% url "update" %}' class="form"> {% csrf_token %}
+                <input class='cart-item-product-id' type='hidden' name='product_id' value='{{ product.id }}' />
+                <button type='submit' class="hidden" style="width: 30px; height: 25px; position: relative;">
+                    <i class="far fa-window-close fa-1-5x remove" style="margin: 0px;"></i>
+                    <span class="tooltipp">Remove this item</span>
+                </button>
+                </span>
+            </form>
+        </th>
+      </tr>
+      {% endfor %}
+      <tr class="bg-md-light">
+        <td colspan="3"></td>
+        <td><b>Subtotal: </b> $<span class='cart-subtotal'>{{ cart.subtotal }}</span></td>
+      </tr>
+      <tr class="bg-md-light">
+        <td colspan="3"></td>
+        <td><b>Order Total: </b> $<span class='cart-total'>{{ cart.total }}</span></td>
+      </tr>
+      <tr>
+          <td colspan="3"></td>
+          <td>
+              <a class='btn btn-outline-success' href='#'>Clear Cart</a>
+              <a class='btn btn-lg btn-success' href='#'>Checkout</a>
+          </td>
+      </tr>
+
+    </tbody>
+  </table>
+  </div>
+  {% else %}
+  <p class='text-center lead'>Cart is empty</p>
+  {% endif %}
+</div>
+</div>
+{% endblock %}

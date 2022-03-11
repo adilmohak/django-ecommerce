@@ -1,0 +1,4 @@
+- calculate total based on quantity for each item..........IN PROGRESS
+- Item should decrease when customers purchase the item..........IN PROGRESS
+- cart number increment............DONE
+- change button appearance on click...........DONE

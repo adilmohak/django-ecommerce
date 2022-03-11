@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %}{{ title }}{% endblock title %}
+
+{% block content %}
+
+<div class="section">
+    <div class='container'>
+
+        <div class="title-1">Get in touch with us</div>
+        <div class="title-line mb-3"></div>
+        
+        <p>
+            Lorem ipsum dolor sit amet consectetur adipisicing elit. Facilis dolorum dolorem soluta quidem
+            expedita aperiam aliquid at.
+        </p>
+
+        <div class='row'>
+            <div class='col'>
+                <div class='col-md-6 col-12 mx-auto'>
+                <form class='contact-form' method='POST' action='{% url "contact" %}'> {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.fullname }}
+                        <div class="danger">{{ form.fullname.errors }}</div>
+                    </div>
+                    <div class="form-group">
+                        {{ form.email }}
+                        <div class="danger">{{ form.email.errors }}</div>
+                    </div>
+                    <div class="form-group">
+                        {{ form.content }}
+                        <div class="danger">{{ form.content.errors }}</div>
+                    </div>
+                    <button type='submit' class='btn btn-secondary'>Submit</button>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'base.html' %}
+{% block title %}{{ title }}{% endblock title %}
+{% load crispy_forms_tags %}
+{% load static %}
+
+{% block content %}
+
+<div class="section">
+    <div class="container" id="registration-wrapper">
+
+        <div class="title-1"><i class="fas fa-user-plus"></i>Register</div>
+        <div class="title-line mb-5"></div>
+
+        <p class="text-center lead">Create your free account</p>
+
+        {% if messages %}
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    <div class="alert alert-danger">
+                        <i class="fas fa-exclamation-circle"></i>{{ message }}
+                    </div>
+                {% else %}
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>{{ message }}
+                    </div>
+                {% endif %}
+            {% endfor %}
+        {% endif %}
+
+        <form action="" method="POST">{% csrf_token %}
+            <div class="row">
+                <div class="col bs-dark mr-5 mb-5 bg-white" style="padding: 0px;">
+                    <div class="form-header-1 text-center lead">Login Info</div>
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <div class="col-form-label">Username</div>{{ form.username }}
+                            <span class="danger">{{ form.username.errors }}</span>
+                            <p class="text-muted small">Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.password1.label }}</div>{{ form.password1 }}
+                            <span class="danger">{{ form.password1.errors }}</span>
+                            <p class="text-muted small">
+                                The password can't be too similar to other personal information.<br>
+                                The password must contain at least 8 characters.<br>
+                                The password can't be a commonly used password.<br>
+                                The password can't be entirely numeric.
+                            </p>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.password2.label }}</div>{{ form.password2 }}
+                            <span class="danger">{{ form.password2.errors }}</span>
+                            <p class="text-muted small">Enter the same password as before, for verification.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col bs-dark mb-5 bg-white" style="padding: 0px;">
+                    <div class="form-header-1 text-center lead">Personal Info</div>
+                    <div class="container-fluid">
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.first_name.label }}</div><div class="input-group">{{ form.first_name }}</div>
+                            <span class="danger">{{ form.first_name.errors }}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.last_name.label }}</div>{{ form.last_name }}
+                            <span class="danger">{{ form.last_name.errors }}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.email.label }}</div>{{ form.email }}
+                            <span class="danger">{{ form.email.errors }}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.address.label }}</div>{{ form.address }}
+                            <span class="danger">{{ form.address.errors }}</span>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-form-label">{{ form.phone.label }}</div>{{ form.phone }}
+                            <span class="danger">{{ form.phone.errors }}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center">
+                <input class="btn btn-outline-primary" type="submit" value="Signup">
+            </div>
+            <div class="text-center text-muted">
+                <small>Already have an account?</small><a href="{% url 'login' %}"> Login</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

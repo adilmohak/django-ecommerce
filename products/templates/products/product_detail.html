@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.title }} | eCommerce{% endblock title %}
+{% block content %}
+
+<style>
+    img{box-shadow: 0px 2px 15px 2px rgba(0, 0, 0, 0.3);}
+</style>
+
+<div class="container">
+
+    <div class="title-1">{{ object.title|title }}</div>
+    <div class="title-line mb-1"></div>
+    
+    <p><i class="fas fa-calendar-alt mr-3"></i>{{ object.timestamp|timesince }} ago</p>
+    <div class='row bg-light py-4 px-3'>
+        <div class='col-md-6'>
+            {% if object.image %}
+                <img src='{{ object.image.url }}' class='img-fluid'>
+            {% endif %}
+        </div>
+        <div class="col-md-6">
+            
+            <strong>Brand : </strong>{{ object.brand }}
+            <div class="mt-1">
+                <span class="price fs-5">$ {{ object.price }}</span>
+                {% if object.discount_price %}<span class="dismiss-text"> $ {{ object.discount_price }}</span>{% endif %}
+            </div>
+            <div class="size-color-wrapper">
+                <label for="" >Size
+                    <select name="" id="" class="custom-select">
+                        <option value="">xxx</option>
+                    </select>
+                </label>
+                <label for="">Color
+                    <select name="" id="" class="custom-select">
+                        <option value="">red</option>
+                    </select>
+                </label>
+            </div>
+            
+            <div class="mb-4">{{ object.description|linebreaks }}</div>
+            
+            <form class='form-product-ajax' method='POST' action='{% url "update" %}' data-endpoint='{% url "update" %}' class="form" {% if request.user.is_authenticated %}data-user='abc'{% endif %}> {% csrf_token %}
+                <input type='hidden' name='product_id' value='{{ product.id }}' {% if  product.is_digital %}data-is-digital='true'{% endif%}/>
+                <span class='submit-span'>
+                {% if product in cart.products.all %}
+                    <button type='submit'  class='btn btn-danger'>
+                        <i class="fa fa-shopping-cart"></i>Remove from cart
+                    </button>
+                {% else %}
+                    <button type='submit'  class='btn btn-success'>
+                        <i class="fa fa-shopping-cart"></i>Add to cart
+                    </button>
+                {% endif %}
+                </span>
+            </form>
+
+        </div>
+
+    </div>
+</div><br><br>
+{% endblock content %}
