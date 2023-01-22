@@ -1,12 +1,8 @@
-# eCommerce
-
-eCommerce is a python / django web based commerce site
+# ecommerce website using Django web framework
 
 # Installation
 
-`git clone https://github.com/adilmohak/eCommerce.git`
-
-`cd eCommerce`
+`git clone https://github.com/adilmohak/django-ecommerce.git`
 
 `pip install -r requirements.txt`
 
@@ -15,3 +11,8 @@ eCommerce is a python / django web based commerce site
 `python manage.py migrate`
 
 `python manage.py runserver`
+
+Visit http://127.0.0.1:8000/
+
+## Useful? Give it a star ✨✨🤩
+# Happy coding :)
